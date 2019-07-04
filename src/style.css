@@ -1,28 +1,28 @@
 ::-webkit-scrollbar {
-	width: 5px;
+    width: 5px;
 }
 ::-webkit-scrollbar-thumb {
-	background: rgb(38, 109, 185);
-	border-radius: 50px;
-	}
+    background: rgb(38, 109, 185);
+    border-radius: 50px;
+    }
 ::-webkit-scrollbar-thumb:hover {
-	background: #ffcc00;
-	}
+    background: #ffcc00;
+    }
 
 ::-webkit-scrollbar-track {
-	background: rgb(243, 243, 243);
-	border-radius: 50px;
-	}
+    background: rgb(243, 243, 243);
+    border-radius: 50px;
+    }
 /*GENERAL-----------------------------------------*/
 *{
-	border: 0;
-	margin: 0;
-	padding: 0;
-	color: inherit;
-	text-decoration: none;
-	list-style-type: none;
-	box-sizing: border-box;
-	outline: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    text-decoration: none;
+    list-style-type: none;
+    box-sizing: border-box;
+    outline: none;
 }
 .display-flex{
     display: flex;
@@ -49,11 +49,11 @@ input{
 }
 /*------------------------*/
 body{
-	font-family: 'Montserrat', sans-serif;
-	color: #474747;
+    font-family: 'Montserrat', sans-serif;
+    color: #474747;
 }
 main{
-	height: calc(100vh - 50px);
+    height: calc(100vh - 50px);
 }
 header{
   background-color: #266DB9;
@@ -65,12 +65,12 @@ header img{
   position: absolute;
 }
 .container-login{
-	flex-direction:column;
-	max-width: 460px;
-	width: 100%;
-	height: 516px;
-	color: whitesmoke;
-	background: linear-gradient(45deg, #192046, #53af9e8f);
+    flex-direction:column;
+    max-width: 460px;
+    width: 100%;
+    height: 516px;
+    color: whitesmoke;
+    background: linear-gradient(45deg, #192046, #53af9e8f);
 }
 .container-login img{
     width: 150px;
@@ -133,11 +133,11 @@ header img{
     margin: 20px 10px;
 }
 .por-atrapar img{
-	filter: grayscale(1);
-	}
+    filter: grayscale(1);
+    }
 .por-atrapar .cant-multipliers{
-	display:none;
-	}
+    display:none;
+    }
 .cant-multipliers{
     background-image: url(img/icon-multipliers.png);
     background-repeat: no-repeat;
@@ -150,7 +150,7 @@ header img{
     right: 25px;
     z-index: 1;
 }
-.icon-pokeball{	
+.icon-pokeball{ 
 width: 15px;
 }
 .img-pokemon{
@@ -188,6 +188,7 @@ width: 15px;
     width: 100%;
     padding: 24px 0;
     flex-wrap: wrap;
+    display: none;
 }
 .navbar:after{
     content:"";
@@ -204,12 +205,12 @@ width: 15px;
 }
 .cont-filtros label{}
 .selectores{
-	background-color: white;
-	width: fit-content;
-	border-radius: 26px;
-	overflow: hidden;
-	text-align: center;
-	}
+    background-color: white;
+    width: fit-content;
+    border-radius: 26px;
+    overflow: hidden;
+    text-align: center;
+    }
 .filtro{
     padding: 13px 0px;
     width: 30%;
@@ -227,8 +228,8 @@ width: 15px;
     max-width: 150px;
 }
 .btn img{
-	height: 22px;
-	margin-left: 7px;
+    height: 22px;
+    margin-left: 7px;
 }
 .flex{
   display:flex !important;
@@ -236,14 +237,17 @@ width: 15px;
 .none{
   display:none !important;
 }
+.soloMisPokemones .por-atrapar{
+    display: none;
+}
 @media (min-width: 801px) {
-	
+    
   .classImageLogin{
     width: 221.15px;
   }
   .classCenter{
-  	width: 280px;
-  	height: 22px;
+    width: 280px;
+    height: 22px;
   }
   .content-pokemones{
     min-width: 130px;
