@@ -1,82 +1,72 @@
-const todoPokemon = POKEMON.pokemon;
-const pokemonesArray = () => {
-  const newArrayPokemones = [];
-  for (let i = 0; i < todoPokemon.length; i++) {
-    newArrayPokemones.push({
-      id: todoPokemon[i].id, 
-  		num: todoPokemon[i].num,  		
-  		name: todoPokemon[i].name,
-  		img: todoPokemon[i].img,
-  		type: todoPokemon[i].type,
-      height: todoPokemon[i].height,
-      weight: todoPokemon[i].weight,
-      candy: todoPokemon[i].candy,
-      candyCount: todoPokemon[i].candy_count,
-      egg: todoPokemon[i].egg,
-      avgSpawns: todoPokemon[i].avg_spawns,
-      multipliers: todoPokemon[i].multipliers,
-      weaknesses: todoPokemon[i].weaknesses,
-      prevEvolution: todoPokemon[i].prev_evolution,
-      nextEvolution: todoPokemon[i].next_evolution
-  	});
+const pokemonReducedData = [];
+
+for (let infoPokemon of POKEMON.pokemon) {   // este infoPokemon ya es un objeto y arroja la lista original de POKEMON.
+  let reducedInfoPokemon = {
+    id: infoPokemon.id,
+    num: infoPokemon.num,
+    name: infoPokemon.name,
+    img: infoPokemon.img,
+    type: infoPokemon.type,
+    multipliers: infoPokemon.multipliers,
+    avgSpawns: infoPokemon.avg_spawns,
+    weaknesses: infoPokemon.weaknesses
   }
-  return newArrayPokemones;
+  pokemonReducedData.push(reducedInfoPokemon);   // si quiero agregar mas properties, solo añado.
 };
-const createEmptyObj = () => {
-  return {
-    pokemon: []
-  };
-};
+window.example = pokemonReducedData;
+
 const getAllPokemon = () => {
-  let pokedexAll = createEmptyObj();
-  pokedexAll.pokemon = pokemonesArray().filter(pkm => true);
-  return pokedexAll;
-};
+  return pokemonReducedData.filter((pkm) => {return true});  // .filter siempre devuelve un nuevo array. (lo que hay dentro del parentesis, es una logica para comprobar si el elemento va o no va)
+}; // Arrow function solo devuelve un valor de True o False (Boolean)
 const getCatchedPokemon = () => {
-  let pokedexCatched = createEmptyObj();
-  pokedexCatched.pokemon = pokemonesArray().filter(pkm => pkm.multipliers);
-  return pokedexCatched;
-};
+  return pokemonReducedData.filter((pkm) => {return pkm.multipliers});   // cada Pkm es un pokemon y evalua cada propiedad. Si multipliers retorna True, se ingresa.
+};                                                                         // todo array vacio o con elementos retorna true.
 const getUncatchedPokemon = () => {
-  let pokedexUncatched = createEmptyObj();
-  pokedexUncatched.pokemon = pokemonesArray().filter(pkm => !(pkm.multipliers));
-  return pokedexUncatched;
+  return pokemonReducedData.filter((pkm) => {return !(pkm.multipliers)});  // multipliers puede tomar valor de array o null. Si mutipliers regresa true y se niega, ya no ingresa.
+};
+const orderIdPokemon = (pokedexToShow) => {
+  pokedexToShow.sort((pkmA, pkmB) => {
+    if (pkmA.id < pkmB.id) return -1;
+    if (pkmA.id > pkmB.id) return 1;
+    return 0;
+  });
 };
 const orderAscPokemon = (pokedexToShow) => {
-  pokedexToShow.pokemon.sort((pkmA, pkmB) => {
+  pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.name < pkmB.name) return -1;
     if (pkmA.name > pkmB.name) return 1;
     return 0;
   });
 };
 const orderDescPokemon = (pokedexToShow) => {
-  pokedexToShow.pokemon.sort((pkmA, pkmB) => {
+  pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.name > pkmB.name) return -1;
     if (pkmA.name < pkmB.name) return 1;
     return 0;
   });
 };
 const orderAscSpawns = (pokedexToShow) => {
-  pokedexToShow.pokemon.sort((pkmA, pkmB) => {
+  pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.avgSpawns < pkmB.avgSpawns) return -1;
     if (pkmA.avgSpawns > pkmB.avgSpawns) return 1;
     return 0;
   });
 };
+
 const orderDescSpawns = (pokedexToShow) => {
-  pokedexToShow.pokemon.sort((pkmA, pkmB) => {
+  pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.avgSpawns > pkmB.avgSpawns) return -1;
     if (pkmA.avgSpawns < pkmB.avgSpawns) return 1;
     return 0;
   });
 };
-const getTypePokemon = (opcion) =>{
-  let pokedexUncatched = createEmptyObj();
-  for (let y = 0; y < pokemonesArray().length; y++) {
-    let pokemon = pokemonesArray()[y];
+const getTypePokemon = (opcion, pokedexToShow) => {
+  let pokedexUncatched = [];
+  for (let y = 0; y < pokedexToShow.length; y++) {
+    let pokemon = pokedexToShow[y];
     for (let i = 0; i < pokemon.type.length; i++) {
       if (pokemon.type[i].indexOf(opcion) > -1) {
-        pokedexUncatched.pokemon.push(pokemon);
+        pokedexUncatched.push(pokemon);
       }
     }
   }
@@ -84,34 +74,36 @@ const getTypePokemon = (opcion) =>{
 };
 const getListTypePokemon = () =>{
   const arrayType = [];
-  for (let x = 0; x < pokemonesArray().length; x++) {
-    for (let y = 0; y < pokemonesArray()[x].type.length; y++) {
-      arrayType.push(pokemonesArray()[x].type[y]);
+  for (let x = 0; x < pokemonReducedData.length; x++) {
+    for (let y = 0; y < pokemonReducedData[x].type.length; y++) {
+      arrayType.push(pokemonReducedData[x].type[y]);
     }
   }
   let sinRepetidos = [...new Set(arrayType)];
   return sinRepetidos;
 };
-const getWeaknessesPokemon = (opcion) =>{
-  let pokedexUncatched = createEmptyObj();
-  for (let y = 0; y < pokemonesArray().length; y++) {
-    let pokemon = pokemonesArray()[y];
+
+const getWeaknessesPokemon = (opcion, pokedexToShowA) => { //Estoy aqui
+  let pokedexUncatched = [];
+  for (let y = 0; y < pokedexToShowA.length; y++) {
+    let pokemon = pokedexToShowA[y];
     for (let i = 0; i < pokemon.weaknesses.length; i++) {
       if (pokemon.weaknesses[i].indexOf(opcion) > -1) {
-        pokedexUncatched.pokemon.push(pokemon);
+        pokedexUncatched.push(pokemon);
       }
     }
   }
-  return pokedexUncatched;
+  return pokedexToShow = pokedexUncatched;
 };
-const getListWeaknessesPokemon = () =>{
+
+const getListWeaknessesPokemon = () =>{    
   const arrayWeaknesses = [];
-  for (let x = 0; x < pokemonesArray().length; x++) {
-    for (let y = 0; y < pokemonesArray()[x].weaknesses.length; y++) {
-      arrayWeaknesses.push(pokemonesArray()[x].weaknesses[y]);
+  for (let x = 0; x < pokemonReducedData.length; x++) {
+    for (let y = 0; y < pokemonReducedData[x].weaknesses.length; y++) {
+      arrayWeaknesses.push(pokemonReducedData[x].weaknesses[y]);
     }
   }
+
   let sinRepetidos = [...new Set(arrayWeaknesses)];
   return sinRepetidos;
 };
-window.example = pokemonesArray;

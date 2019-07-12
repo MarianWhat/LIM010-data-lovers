@@ -1,24 +1,23 @@
 const header = document.getElementById('header');
 const contLogin = document.getElementById('cont-login');
-const btnSubmit = document.getElementById('input-submit');
+const btnSubmit = document.getElementById('inputSubmit');
 const mensajeAlerta = document.getElementById('mensaje-alerta');
-const btnMostrarClave = document.getElementById('icon-clave');
-const enteredUsername = document.getElementById('input-name');
-const enteredPassword = document.getElementById('input-psw');
-
+const btnMostrarClave = document.getElementById('iconClave');
+const enteredUsername = document.getElementById('inputUname');
+const enteredPassword = document.getElementById('inputPsw');
 const selectPokemon = document.getElementById('select-pokemon');
 const selectName = document.getElementById('select-name');
-const selectSpawns = document.getElementById('select-spawns');
+const selectAvgSpawns = document.getElementById('select-avgSpawns');
 const selectType = document.getElementById('select-type');
 const selectWeaknesses = document.getElementById('select-weaknesses');
 const navbar = document.getElementById('navbar');
-
+const btnMenu = document.getElementById('btn-menu');
 
 let sectionPokedex = document.getElementById('pokedex');
 let pokedexToShow = getAllPokemon();
-let misPokemon = getCatchedPokemon();
 let cadenaMostrar = '';
 let claveOculta = 0;
+let menuOpen = 0;
 
 btnSubmit.addEventListener('click', () => {
   if (enteredUsername.value === '' && enteredPassword.value === '') {
@@ -32,77 +31,111 @@ btnSubmit.addEventListener('click', () => {
     enteredUsername.value = '';
   }
 });
-btnMostrarClave.addEventListener('click', () =>{
+btnMostrarClave.addEventListener('click', () => {
   if (claveOculta === 0) {
     enteredPassword.setAttribute('type', 'text');
-    claveOculta = 1;		 
+    claveOculta = 1;
     btnMostrarClave.classList.add('mostrar');
   } else {
     enteredPassword.setAttribute('type', 'password');
-    claveOculta = 0;		 
+    claveOculta = 0;
     btnMostrarClave.classList.remove('mostrar');
+  }
+});
+btnMenu.addEventListener('click', () =>{
+  if (menuOpen === 0) {
+    navbar.classList.add('navbar-show');
+    btnMenu.classList.add('btn-menu-activo');  
+    menuOpen = 1;  
+  } else {    
+    navbar.classList.remove('navbar-show');
+    btnMenu.classList.remove('btn-menu-activo');  
+    menuOpen = 0;  
   }
 });
 selectPokemon.addEventListener('change', () => {
   switch (selectPokemon.value) {
   case 'all':
-    renderPokedex(getAllPokemon());
+    pokedexToShow = getAllPokemon();
+    renderPokedex(pokedexToShow);
+    reset();
     break;
   case 'catched':
-    renderPokedex(getCatchedPokemon());
+    pokedexToShow = getCatchedPokemon();
+    renderPokedex(pokedexToShow);
+    reset();
     break;
   case 'uncatched':
-    renderPokedex(getUncatchedPokemon());
+    pokedexToShow = getUncatchedPokemon();
+    renderPokedex(pokedexToShow);
+    reset();
     break;
   };
 });
 selectName.addEventListener('change', () => {
   switch (selectName.value) {
   case 'default':
-    renderPokedex(getAllPokemon());
+    selectAvgSpawns.value = 'default';
+    orderIdPokemon(pokedexToShow);
+    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
     break;
   case 'asc':
+    selectAvgSpawns.value = 'default';
     orderAscPokemon(pokedexToShow);
-    renderPokedex(pokedexToShow);
+    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
     break;
   case 'desc':
+    selectAvgSpawns.value = 'default';
     orderDescPokemon(pokedexToShow);
     renderPokedex(pokedexToShow);
     break;
   };
 });
-selectSpawns.addEventListener('change', () => {
-  switch (selectSpawns.value) {
+selectAvgSpawns.addEventListener('change', () => {
+  switch (selectAvgSpawns.value) {
   case 'default':
-    renderPokedex(getAllPokemon());
+    selectName.value = 'default';
+    orderIdPokemon(pokedexToShow);
+    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
     break;
   case 'ascSpawns':
-    orderAscSpawns(misPokemon);
-    renderPokedex(misPokemon);
+    selectName.value = 'default';
+    orderAscSpawns(pokedexToShow);
+    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
     break;
   case 'descSpawns':
-    orderDescSpawns(misPokemon);
-    renderPokedex(misPokemon);
+    selectName.value = 'default';
+    orderDescSpawns(pokedexToShow);
+    renderPokedex(pokedexToShow);
     break;
   };
 });
+// Otra seccion
 selectType.addEventListener('change', () => {
   if (selectType.value === 'default') {
     renderPokedex(getAllPokemon());
+    resetDos();
+    selectWeaknesses.value = 'default';
   } else {
-    renderPokedex(getTypePokemon(selectType.value));
+    renderPokedex(getTypePokemon(selectType.value, getAllPokemon()));
+    resetDos();
+    selectWeaknesses.value = 'default';
   }
 });
 selectWeaknesses.addEventListener('change', () => {
   if (selectWeaknesses.value === 'default') {
     renderPokedex(getAllPokemon());
+    resetDos();
+    selectType.value = 'default';
   } else {
-    renderPokedex(getWeaknessesPokemon(selectWeaknesses.value));
+    renderPokedex(getTypePokemon(selectWeaknesses.value, getAllPokemon()));
+    resetDos();
+    selectType.value = 'default';
   }
 });
-const renderPokedex = (pokemonList) => {
+const renderPokedex = (listOfPokemonToShow) => {
   sectionPokedex.innerHTML = '';
-  for (let pokemon of pokemonList.pokemon) {
+  for (let pokemon of listOfPokemonToShow) {
     let esNull = '';
     let cantMultipliers = 0;
     let iconsTipo = '';
@@ -114,7 +147,7 @@ const renderPokedex = (pokemonList) => {
       iconsTipo += `<img src="img/icon-${pokemonType}.png" alt="${pokemonType}">`;
 
     sectionPokedex.innerHTML +=
-      `<div class="content-pokemones display-flex ${esNull}">
+			`<div class="content-pokemones display-flex ${esNull}">
 			<span class="cant-multipliers">x${cantMultipliers}</span>
 			<img class="img-pokemon" src="${pokemon.img}">
 			<div class="contenido-poke">
@@ -122,8 +155,9 @@ const renderPokedex = (pokemonList) => {
 				<p class="num-pokemon">#${pokemon.num}</p>
         <div class="cont-tipo">${iconsTipo}</div>
 				<div>${pokemon.avgSpawns}</div>        
-			</div>
-		</div>`;
+      </div>
+      <button id="" class="btn btn-more"></button>
+      </div>`;
   };
 };
 const renderTypeOrWeaknessesPokedex = (select, pokemonList) => {
@@ -131,8 +165,17 @@ const renderTypeOrWeaknessesPokedex = (select, pokemonList) => {
     select.innerHTML += `<option value=${pokemonList[index]}>${pokemonList[index]}</option>`;
   };
 };
-
 renderPokedex(pokedexToShow);
 renderTypeOrWeaknessesPokedex(selectType, getListTypePokemon());
 renderTypeOrWeaknessesPokedex(selectWeaknesses, getListWeaknessesPokemon());
-
+const reset = () =>{
+  selectName.value = 'default';
+  selectAvgSpawns.value = 'default';
+  selectType.value = 'default';
+  selectWeaknesses.value = 'default';
+};
+const resetDos = () =>{
+  selectPokemon.value = 'all';
+  selectName.value = 'default';
+  selectAvgSpawns.value = 'default';
+};
