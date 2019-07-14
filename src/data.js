@@ -1,5 +1,4 @@
 const pokemonReducedData = [];
-
 for (let infoPokemon of POKEMON.pokemon) {   // este infoPokemon ya es un objeto y arroja la lista original de POKEMON.
   let reducedInfoPokemon = {
     id: infoPokemon.id,
@@ -7,10 +6,14 @@ for (let infoPokemon of POKEMON.pokemon) {   // este infoPokemon ya es un objeto
     name: infoPokemon.name,
     img: infoPokemon.img,
     type: infoPokemon.type,
+    egg: infoPokemon.egg,
     multipliers: infoPokemon.multipliers,
     avgSpawns: infoPokemon.avg_spawns,
-    weaknesses: infoPokemon.weaknesses
-  }
+    spawnTime: infoPokemon.spawn_time,
+    weaknesses: infoPokemon.weaknesses,
+    weight: infoPokemon.weight,
+    height: infoPokemon.height
+  };
   pokemonReducedData.push(reducedInfoPokemon);   // si quiero agregar mas properties, solo añado.
 };
 window.example = pokemonReducedData;

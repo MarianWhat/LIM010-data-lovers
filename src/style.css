@@ -23,6 +23,7 @@
   list-style-type: none;
   box-sizing: border-box;
   outline: none;
+  /* position: relative; */
 }
 .display-flex{
   display: flex;
@@ -34,7 +35,17 @@
   cursor: pointer;
   padding: 12px 17px;
 }
-.btn-circulo{
+.line-vertical{
+    height: 30px;
+    border: 1px solid #ffffff3d;
+    margin: 0px 6px 0px;
+}
+.line-horizontal{
+  width: 100px;
+  border: 1px solid #72a4d8;
+  margin: 10px 0 15px;
+}
+.btn-circulo{ /* Pendiente por quitar */
   background-color: #ED5564;
   color: white;
   padding: 12px;
@@ -48,6 +59,7 @@
 body{
   font-family: 'Montserrat', sans-serif;
   color: #474747;
+  overflow: hidden;
 }
 main{
   height: calc(100vh - 88px);
@@ -152,7 +164,6 @@ footer{
   padding: 8px 0;
   font-size: 13px;
 }
-
 footer img{
   width: 20px;
   margin: 0 6px;
@@ -160,7 +171,8 @@ footer img{
 /* Footer Fin */
 .pokedex{
   display: none;
-  background-image: url(img/fondo-pokemon.svg);
+  /* background-image: url(img/fondo-pokemon.svg); */
+  background-color: #070d18;
   background-size: cover;
   flex-wrap: wrap;
   width: 100%;
@@ -174,14 +186,14 @@ footer img{
   display: initial;
 }
 .content-pokemones{
-  width: 20%;
-  min-width: 110px;
-  max-width: 170px;
+  width: 22%;
+  min-width: 170px;
+  max-width: 180px;
   flex-direction: column;
   position: relative;
   margin: 20px 10px;
   border-radius: 20px;
-  padding: 20px;
+  padding: 12px 12px 24px;
   transition: .5s;
   z-index: -1;
 }
@@ -195,16 +207,23 @@ footer img{
   filter: grayscale(1);
 }
 .cant-multipliers{
-  background-image: url(./img/icon-multipliers.png);
+  /* background-image: url(./img/icon-multipliers.png); */
   background-repeat: no-repeat;
   width: 36px;
   background-size: 35px;
   text-align: center;
   padding: 2px 2px 11px;
   position: absolute;
-  top: -10px;
+  top: -4px;
   right: 25px;
   z-index: 1;
+  background-color: #ed5564;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 20px;
+  top: 114px;
+  right: 36px;
 }
 .por-atrapar .cant-multipliers{
   display:none;
@@ -228,16 +247,36 @@ footer img{
   font-size: 16px;
   text-align: center;
 }
-.num-pokemon{
-  margin-bottom: 8px;
+.info-tripack{
+    margin-top: 10px;
+}
+.item-tripack{
+    text-align: center;
+    margin: 0 4px;
+    width: max-content;
+}
+.item-tripack p{
+    font-size: 12px;
+}
+.text-tripack{
+    font-size: 11px;
+    font-weight: 100;
+    color: #b6b6b6;
+    display: block;
 }
 .cont-tipo{
-  display: flex;
   width: max-content;
+  text-align: center;
+  font-size: 12px;
+  float: right;
+  margin: 0 4px;
 }
 .cont-tipo img{
-  width: 20px;
+  height: 20px;
   margin: 0 4px;
+}
+.num-pokemon{
+  /* margin-bottom: 8px; */
 }
 .btn-more{
   background-image: url(img/icon-pokeball.png);
@@ -256,27 +295,26 @@ footer img{
 }
 .navbar{
   position: relative;
+  float: right;
   flex-direction: column;
   z-index: 2;
   height: calc(100vh - 88px);
   display: none;
   background-color: #5692d1;
   width: 240px;
-  float: left;
-  margin-left: -240px;
+  margin-right: -240px;
   transition: 0.5s;
 }
 .navbar-show{
-    margin-left: 0;
+    margin-right: 0;
 }
-.btn-menu{width: 39px;height: 40px;position: absolute;top: 50px;right: -39px;border-radius: 0px 14px 14px 0;z-index: 5;background-color: #5692d1;cursor: pointer;}
-.line-menu{display: block;background-color: #ffcc00;width: 23px;height: 4px;margin-left: 8px;border-radius: 25px;transition: .5s;}
+.btn-menu{width: 50px;height: 50px;position: absolute;top: 50px;left: -50px;border-radius: 100% 0 0 100%;z-index: 5;background-color: #5692d1;cursor: pointer;}
+.line-menu{display: block;background-color: #ffcc00;width: 23px;height: 4px;margin-left: 15px;border-radius: 25px;transition: .5s;}
 .line-menu:nth-child(2){margin-top: 5px;}
 .line-menu:nth-child(3){margin-top: 5px;}
 .btn-menu-activo .line-menu:nth-child(1){transform: rotate(45deg);}
 .btn-menu-activo .line-menu:nth-child(2){width: 0;}
 .btn-menu-activo .line-menu:nth-child(3){transform: rotate(-45deg);margin-top: -13px;}
-
 .navbar label{
   font-size: 13px;
   margin-bottom: 6px;
@@ -293,11 +331,6 @@ footer img{
   height: 22px;
   margin-left: 7px;
 }
-.separador{
-    width: 100px;
-    border: 1px solid #72a4d8;
-    margin: 10px 0 15px;
-}
 .flex {
   display:flex !important;
 }
@@ -306,7 +339,6 @@ footer img{
 }
 @media (min-width: 801px) {
 .container-login{
-  
 height: 540px;
 }
 .container-login img {
@@ -317,8 +349,6 @@ height: 540px;
   height: 22px;
 }
 .content-pokemones {
-  min-width: 130px;
-  margin: 25px 14px;
 }
 .nombre-pokemon {
   font-size: 18px;

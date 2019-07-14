@@ -139,25 +139,45 @@ const renderPokedex = (listOfPokemonToShow) => {
     let esNull = '';
     let cantMultipliers = 0;
     let iconsTipo = '';
+    let tipoEgg = '';
 
     if (pokemon.multipliers === null) esNull = 'por-atrapar';
     else cantMultipliers = pokemon.multipliers.length;
-
+    if (pokemon.egg !== 'Not in Eggs') {
+      tipoEgg = `<span class="line-vertical"></span><div class="item-tripack"><div class='cont-tipo'><img src="img/icon-huevo.png" alt="icon-huevo">
+      <p class='text-tripack'>${pokemon.egg}</p></div></div>`;
+    }
     for (let pokemonType of pokemon.type)
-      iconsTipo += `<img src="img/icon-${pokemonType}.png" alt="${pokemonType}">`;
+      iconsTipo += `<div class='cont-tipo'><img src="img/icon-${pokemonType}.png" alt="${pokemonType}">
+      <strong class='text-tripack'>${pokemonType}</strong></div>`;
 
-    sectionPokedex.innerHTML +=
-			`<div class="content-pokemones display-flex ${esNull}">
-			<span class="cant-multipliers">x${cantMultipliers}</span>
-			<img class="img-pokemon" src="${pokemon.img}">
-			<div class="contenido-poke">
-				<h2 class="nombre-pokemon">${pokemon.name}</h2>
-				<p class="num-pokemon">#${pokemon.num}</p>
-        <div class="cont-tipo">${iconsTipo}</div>
-				<div>${pokemon.avgSpawns}</div>        
+    sectionPokedex.innerHTML += `<div class="content-pokemones display-flex ${esNull}">
+    <span class="cant-multipliers">x${cantMultipliers}</span>
+    <img class="img-pokemon" src="${pokemon.img}">
+    <div class="contenido-poke">
+      <h2 class="nombre-pokemon">${pokemon.name}</h2>
+      <!-- <p class="num-pokemon">#${pokemon.num}</p> -->
+      <div class='info-tripack display-flex'>
+        <div class="item-tripack ">${iconsTipo}</div>
+        ${tipoEgg}
       </div>
-      <button id="" class="btn btn-more"></button>
-      </div>`;
+      <div class='info-tripack display-flex'>
+        <div class='item-tripack'>
+          <p class="num-pokemon">${pokemon.weight}</p>
+          <strong class='text-tripack'>Peso</strong>
+        </div>
+        <div class='item-tripack'>
+          <p class="num-pokemon">${pokemon.avgSpawns}</p>
+          <strong class='text-tripack'>% Spawns</strong>
+        </div>
+        <div class='item-tripack'>
+          <p class="num-pokemon">${pokemon.height}</p>
+          <strong class='text-tripack'>Altura</strong>
+        </div>
+      </div>
+    </div>
+    <button id="" class="btn btn-more"></button>
+</div>` ;
   };
 };
 const renderTypeOrWeaknessesPokedex = (select, pokemonList) => {
