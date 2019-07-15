@@ -140,7 +140,7 @@ const renderPokedex = (listOfPokemonToShow) => {
     let cantMultipliers = 0;
     let iconsTipo = '';
     let tipoEgg = '';
-
+    
     if (pokemon.multipliers === null) esNull = 'por-atrapar';
     else cantMultipliers = pokemon.multipliers.length;
     if (pokemon.egg !== 'Not in Eggs') {
@@ -156,7 +156,7 @@ const renderPokedex = (listOfPokemonToShow) => {
     <img class="img-pokemon" src="${pokemon.img}">
     <div class="contenido-poke">
       <h2 class="nombre-pokemon">${pokemon.name}</h2>
-      <!-- <p class="num-pokemon">#${pokemon.num}</p> -->
+<!-- <p class="num-pokemon">#${pokemon.num}</p> -->
       <div class='info-tripack display-flex'>
         <div class="item-tripack ">${iconsTipo}</div>
         ${tipoEgg}
@@ -175,7 +175,26 @@ const renderPokedex = (listOfPokemonToShow) => {
           <strong class='text-tripack'>Altura</strong>
         </div>
       </div>
+      <table class="more-info">
+  <tr>
+    <th>Hora de Spawn:</th>
+    <td>${pokemon.spawnTime}</td>
+  </tr>
+  <tr>
+    <th>Debilidad:</th>
+    <td>${ pokemon.weaknesses.toString().replace(/,/g, ', ')}</td>
+  </tr>
+  <tr>
+    <th>Caramelo:</th>
+    <td>${pokemon.candy}</td>
+  </tr>
+  <tr>
+    <th>Cant. Caramelo:</th>
+    <td>${pokemon.candyCount}</td>
+  </tr>
+</table>
     </div>
+    
     <button id="" class="btn btn-more"></button>
 </div>` ;
   };

@@ -11,6 +11,8 @@ for (let infoPokemon of POKEMON.pokemon) {   // este infoPokemon ya es un objeto
     avgSpawns: infoPokemon.avg_spawns,
     spawnTime: infoPokemon.spawn_time,
     weaknesses: infoPokemon.weaknesses,
+    candy: infoPokemon.candy,
+    candyCount: infoPokemon.candy_count,
     weight: infoPokemon.weight,
     height: infoPokemon.height
   };
