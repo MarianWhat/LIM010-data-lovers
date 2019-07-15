@@ -23,7 +23,7 @@
   list-style-type: none;
   box-sizing: border-box;
   outline: none;
-  /* position: relative; */
+  user-select: none;
 }
 .display-flex{
   display: flex;
@@ -172,7 +172,6 @@ footer img{
 .pokedex{
   display: none;
   background-image: url(img/fondo-pokemon.svg);
-  /* background-color: #070d18; */
   background-size: cover;
   flex-wrap: wrap;
   width: 100%;
