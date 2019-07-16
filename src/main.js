@@ -58,7 +58,6 @@ btnMenu.addEventListener('click', () => {
     menuOpen = 0;
   }
 });
-
 clean.addEventListener('click', () => {
   document.getElementById('select-pokemon').value = 'all';
   document.getElementById('select-name').value = 'default';
@@ -79,13 +78,16 @@ exit.addEventListener('click', () => {
 
 const renderPokedex = (listOfPokemonToShow) => {
   sectionPokedex.innerHTML = '';
-  if (listOfPokemonToShow.length === 0) sectionPokedex.innerHTML = '<p class="">Lo siento, no se encontraron Pokemons. :(</p>';
+  if (listOfPokemonToShow.length === 0) sectionPokedex.innerHTML = '<p class="alertNot">Lo siento, no se encontraron Pokemons. :(</p>';
   for (let pokemon of listOfPokemonToShow) {
     let esNull = '';
     let cantMultipliers = 0;
     let iconsTipo = '';
     let tipoEgg = '';
-
+    let cantCandy = pokemon.candyCount;
+    if (pokemon.candyCount === undefined) {
+      cantCandy = 0;
+    };
     if (pokemon.multipliers === null) esNull = 'por-atrapar';
     else cantMultipliers = pokemon.multipliers.length;
     if (pokemon.egg !== 'Not in Eggs') {
@@ -111,10 +113,12 @@ const renderPokedex = (listOfPokemonToShow) => {
           <p class="num-pokemon">${pokemon.weight}</p>
           <strong class='text-tripack'>Peso</strong>
         </div>
+        <span class="line-vertical"></span>
         <div class='item-tripack'>
           <p class="num-pokemon">${pokemon.avgSpawns}</p>
           <strong class='text-tripack'>% Spawns</strong>
         </div>
+        <span class="line-vertical"></span>
         <div class='item-tripack'>
           <p class="num-pokemon">${pokemon.height}</p>
           <strong class='text-tripack'>Altura</strong>
@@ -135,7 +139,8 @@ const renderPokedex = (listOfPokemonToShow) => {
   </tr>
   <tr>
     <th>Cant. Caramelo:</th>
-    <td>${pokemon.candyCount}</td>
+    <td>${cantCandy}
+    </td>
   </tr>
 </table>
     </div>

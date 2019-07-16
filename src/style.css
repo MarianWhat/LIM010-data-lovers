@@ -37,8 +37,8 @@
 }
 .line-vertical{
     height: 30px;
-    border: 1px solid #ffffff3d;
-    margin: 0px 6px 0px;
+    border: 0.5px solid #ffffff3d;
+    margin: 0px 2px 0px;
 }
 .line-horizontal{
   width: 100px;
@@ -178,16 +178,16 @@ footer img{
   height: 100%;
   overflow: auto;
   justify-content: space-evenly;
-  padding: 30px 40px;
+  padding: 30px 25px;
   z-index: 0;
 }
 .show-elements .img-header, .show-elements .btn-header {
   display: initial;
 }
 .content-pokemones{
-  width: 22%;
-  min-width: 170px;
-  max-width: 180px;
+  width: 24%;
+  min-width: 178px;
+  max-width: 200px;
   flex-direction: column;
   position: relative;
   margin: 12px 10px;
@@ -195,7 +195,7 @@ footer img{
   padding: 0px 3px;
   transition: .4s;
   z-index: -1;
-  height: 360px;
+  height: 330px;
 }
 
 .por-atrapar img{
@@ -222,7 +222,7 @@ footer img{
   width: 15px;
 }
 .img-pokemon{
-  width: 100%;
+  width: 80%;
   height: auto;
   transition: .2s;
 }
@@ -249,8 +249,6 @@ footer img{
     margin: 0 4px;
     width: max-content;
     font-size: 11px;
-}
-.item-tripack p{
 }
 .text-tripack{
     font-size: 11px;
@@ -293,6 +291,11 @@ th{
 td{
   font-size: 12px;
 }
+.alertNot{
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
 /* Hover */
 .content-pokemones:hover{
     background-color: #ffffff0a;
@@ -306,12 +309,9 @@ td{
     width: 0%;
     font-size: 0px;
 }
-.content-pokemones:hover .contenido-poke{
-}
 .content-pokemones:hover td, 
 .content-pokemones:hover th,
 .content-pokemones:hover .more-info{
-
 border-color: #e8e8e81a;
 }
 .content-pokemones:hover .more-info{height: auto;margin-top: 7px;opacity: 1;}
@@ -362,10 +362,8 @@ border-color: #e8e8e81a;
   }
 .filtro{margin-bottom: 9px;font-size: 13px;/* border: 1px solid #c6c6c6; */padding: 10px;border-radius: 20px;width: 150px;color: #dbdfe2;background-color: #266db9;}
 .navbar .btn{
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #ffcc00;
+  margin-top: 20px;
 }
 .btn img {
   height: 22px;
@@ -387,6 +385,9 @@ height: 540px;
 .classCenter {
   width: 280px;
   height: 22px;
+}
+.pokedex {
+    padding: 30px 40px;
 }
 .nombre-pokemon {
   font-size: 18px;
