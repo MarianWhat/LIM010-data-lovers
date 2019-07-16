@@ -10,14 +10,17 @@ const selectName = document.getElementById('select-name');
 const selectAvgSpawns = document.getElementById('select-avgSpawns');
 const selectType = document.getElementById('select-type');
 const selectWeaknesses = document.getElementById('select-weaknesses');
+const selectEgg = document.getElementById('select-egg');
 const navbar = document.getElementById('navbar');
 const btnMenu = document.getElementById('btn-menu');
 
+let clean = document.getElementById('btn-clean');
+let exit = document.getElementById('btn-exit');
 let sectionPokedex = document.getElementById('pokedex');
-let pokedexToShow = getAllPokemon();
-let cadenaMostrar = '';
+let pokedexToShow = masterFilter('all', 'default', 'default', 'default');
 let claveOculta = 0;
 let menuOpen = 0;
+let pokemonPercentages = null; //esta variable se actualizara y contendra una array con los porcentajes
 
 btnSubmit.addEventListener('click', () => {
   if (enteredUsername.value === '' && enteredPassword.value === '') {
@@ -26,11 +29,12 @@ btnSubmit.addEventListener('click', () => {
     contLogin.classList.add('none');
     header.classList.add('show-elements');
   } else {
-    mensajeAlerta.innerHTML = '**Usuario o/y contraseña incorrecta, intenta de nuevo.';
+    mensajeAlerta.innerHTML = '**Usuario o/y contraseña incorrecta, intenta de nuevo.**';
     enteredPassword.value = '';
     enteredUsername.value = '';
   }
 });
+
 btnMostrarClave.addEventListener('click', () => {
   if (claveOculta === 0) {
     enteredPassword.setAttribute('type', 'text');
@@ -42,105 +46,46 @@ btnMostrarClave.addEventListener('click', () => {
     btnMostrarClave.classList.remove('mostrar');
   }
 });
-btnMenu.addEventListener('click', () =>{
+
+btnMenu.addEventListener('click', () => {
   if (menuOpen === 0) {
     navbar.classList.add('navbar-show');
-    btnMenu.classList.add('btn-menu-activo');  
-    menuOpen = 1;  
-  } else {    
+    btnMenu.classList.add('btn-menu-activo');
+    menuOpen = 1;
+  } else {
     navbar.classList.remove('navbar-show');
-    btnMenu.classList.remove('btn-menu-activo');  
-    menuOpen = 0;  
+    btnMenu.classList.remove('btn-menu-activo');
+    menuOpen = 0;
   }
 });
-selectPokemon.addEventListener('change', () => {
-  switch (selectPokemon.value) {
-  case 'all':
-    pokedexToShow = getAllPokemon();
-    renderPokedex(pokedexToShow);
-    reset();
-    break;
-  case 'catched':
-    pokedexToShow = getCatchedPokemon();
-    renderPokedex(pokedexToShow);
-    reset();
-    break;
-  case 'uncatched':
-    pokedexToShow = getUncatchedPokemon();
-    renderPokedex(pokedexToShow);
-    reset();
-    break;
-  };
+
+clean.addEventListener('click', () => {
+  document.getElementById('select-pokemon').value = 'all';
+  document.getElementById('select-name').value = 'default';
+  document.getElementById('select-avgSpawns').value = 'default';
+  document.getElementById('select-type').value = 'default';
+  document.getElementById('select-weaknesses').value = 'default';
+  document.getElementById('select-egg').value = 'default';
+  pokedexToShow = masterFilter('all', 'default', 'default', 'default');
+  renderPokedex(pokedexToShow);
 });
-selectName.addEventListener('change', () => {
-  switch (selectName.value) {
-  case 'default':
-    selectAvgSpawns.value = 'default';
-    orderIdPokemon(pokedexToShow);
-    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
-    break;
-  case 'asc':
-    selectAvgSpawns.value = 'default';
-    orderAscPokemon(pokedexToShow);
-    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
-    break;
-  case 'desc':
-    selectAvgSpawns.value = 'default';
-    orderDescPokemon(pokedexToShow);
-    renderPokedex(pokedexToShow);
-    break;
-  };
+
+exit.addEventListener('click', () => {
+  sectionPokedex.classList.remove('flex');
+  navbar.classList.remove('flex');
+  contLogin.classList.remove('none');
+  header.classList.remove('show-elements');
 });
-selectAvgSpawns.addEventListener('change', () => {
-  switch (selectAvgSpawns.value) {
-  case 'default':
-    selectName.value = 'default';
-    orderIdPokemon(pokedexToShow);
-    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
-    break;
-  case 'ascSpawns':
-    selectName.value = 'default';
-    orderAscSpawns(pokedexToShow);
-    renderPokedex(pokedexToShow);   // aqui con el pokedextoshow ya ordenado, lo mando a renderpokedex para que actualice la pantalla.
-    break;
-  case 'descSpawns':
-    selectName.value = 'default';
-    orderDescSpawns(pokedexToShow);
-    renderPokedex(pokedexToShow);
-    break;
-  };
-});
-// Otra seccion
-selectType.addEventListener('change', () => {
-  if (selectType.value === 'default') {
-    renderPokedex(getAllPokemon());
-    resetDos();
-    selectWeaknesses.value = 'default';
-  } else {
-    renderPokedex(getTypePokemon(selectType.value, getAllPokemon()));
-    resetDos();
-    selectWeaknesses.value = 'default';
-  }
-});
-selectWeaknesses.addEventListener('change', () => {
-  if (selectWeaknesses.value === 'default') {
-    renderPokedex(getAllPokemon());
-    resetDos();
-    selectType.value = 'default';
-  } else {
-    renderPokedex(getTypePokemon(selectWeaknesses.value, getAllPokemon()));
-    resetDos();
-    selectType.value = 'default';
-  }
-});
+
 const renderPokedex = (listOfPokemonToShow) => {
   sectionPokedex.innerHTML = '';
+  if (listOfPokemonToShow.length === 0) sectionPokedex.innerHTML = '<p class="">Lo siento, no se encontraron Pokemons. :(</p>';
   for (let pokemon of listOfPokemonToShow) {
     let esNull = '';
     let cantMultipliers = 0;
     let iconsTipo = '';
     let tipoEgg = '';
-    
+
     if (pokemon.multipliers === null) esNull = 'por-atrapar';
     else cantMultipliers = pokemon.multipliers.length;
     if (pokemon.egg !== 'Not in Eggs') {
@@ -199,22 +144,41 @@ const renderPokedex = (listOfPokemonToShow) => {
 </div>` ;
   };
 };
-const renderTypeOrWeaknessesPokedex = (select, pokemonList) => {
-  for (let index = 0; index < pokemonList.length; index++) {
-    select.innerHTML += `<option value=${pokemonList[index]}>${pokemonList[index]}</option>`;
-  };
+const someFilterValueWasUpdated = () => {
+  pokedexToShow = masterFilter(selectPokemon.value, selectType.value, selectWeaknesses.value, selectEgg.value);
+  masterSorter(pokedexToShow, selectName.value, selectAvgSpawns.value);
+  renderPokedex(pokedexToShow);
 };
+
+const someSorterValueWasUpdated = () => {
+  masterSorter(pokedexToShow, selectName.value, selectAvgSpawns.value);
+  renderPokedex(pokedexToShow);
+};
+
+selectPokemon.addEventListener('change', someFilterValueWasUpdated);
+selectType.addEventListener('change', someFilterValueWasUpdated);
+selectWeaknesses.addEventListener('change', someFilterValueWasUpdated);
+selectEgg.addEventListener('change', someFilterValueWasUpdated);
+
+selectName.addEventListener('change', () => {
+  selectAvgSpawns.value = 'default';
+  someSorterValueWasUpdated();
+});
+
+selectAvgSpawns.addEventListener('change', () => {
+  selectName.value = 'default';
+  someSorterValueWasUpdated();
+});
+
+for (let pokemonType of getPokemonTypes()) {
+  selectType.innerHTML += `<option value=${pokemonType}>${pokemonType}</option>`;
+  selectWeaknesses.innerHTML += `<option value=${pokemonType}>${pokemonType}</option>`;
+}
+
+pokemonPercentages = calculateEggPercentage();
+selectEgg.innerHTML += `<option value="2 km">2 km -- ${pokemonPercentages['2km']}%</option>`;
+selectEgg.innerHTML += `<option value="5 km">5 km -- ${pokemonPercentages['5km']}%</option>`;
+selectEgg.innerHTML += `<option value="10 km">10 km -- ${pokemonPercentages['10km']}%</option>`;
+selectEgg.innerHTML += `<option value="Not in Eggs">Not in Eggs -- ${pokemonPercentages['noEgg']}%</option>`;
+
 renderPokedex(pokedexToShow);
-renderTypeOrWeaknessesPokedex(selectType, getListTypePokemon());
-renderTypeOrWeaknessesPokedex(selectWeaknesses, getListWeaknessesPokemon());
-const reset = () =>{
-  selectName.value = 'default';
-  selectAvgSpawns.value = 'default';
-  selectType.value = 'default';
-  selectWeaknesses.value = 'default';
-};
-const resetDos = () =>{
-  selectPokemon.value = 'all';
-  selectName.value = 'default';
-  selectAvgSpawns.value = 'default';
-};

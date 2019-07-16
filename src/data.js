@@ -1,4 +1,5 @@
 const pokemonReducedData = [];
+
 for (let infoPokemon of POKEMON.pokemon) {   // este infoPokemon ya es un objeto y arroja la lista original de POKEMON.
   let reducedInfoPokemon = {
     id: infoPokemon.id,
@@ -6,29 +7,77 @@ for (let infoPokemon of POKEMON.pokemon) {   // este infoPokemon ya es un objeto
     name: infoPokemon.name,
     img: infoPokemon.img,
     type: infoPokemon.type,
-    egg: infoPokemon.egg,
     multipliers: infoPokemon.multipliers,
     avgSpawns: infoPokemon.avg_spawns,
-    spawnTime: infoPokemon.spawn_time,
     weaknesses: infoPokemon.weaknesses,
+    egg: infoPokemon.egg,
+    spawnTime: infoPokemon.spawn_time,
     candy: infoPokemon.candy,
     candyCount: infoPokemon.candy_count,
     weight: infoPokemon.weight,
     height: infoPokemon.height
-  };
+
+  }
   pokemonReducedData.push(reducedInfoPokemon);   // si quiero agregar mas properties, solo añado.
 };
 window.example = pokemonReducedData;
 
-const getAllPokemon = () => {
-  return pokemonReducedData.filter((pkm) => {return true});  // .filter siempre devuelve un nuevo array. (lo que hay dentro del parentesis, es una logica para comprobar si el elemento va o no va)
-}; // Arrow function solo devuelve un valor de True o False (Boolean)
-const getCatchedPokemon = () => {
-  return pokemonReducedData.filter((pkm) => {return pkm.multipliers});   // cada Pkm es un pokemon y evalua cada propiedad. Si multipliers retorna True, se ingresa.
-};                                                                         // todo array vacio o con elementos retorna true.
-const getUncatchedPokemon = () => {
-  return pokemonReducedData.filter((pkm) => {return !(pkm.multipliers)});  // multipliers puede tomar valor de array o null. Si mutipliers regresa true y se niega, ya no ingresa.
+const calculateEggPercentage = () => {
+  let totalPokemon = pokemonReducedData.length;
+  let total2KmEggs = 0, total5KmEggs = 0, total10KmEggs = 0, totalNoEggs = 0;
+  for (let pokemon of pokemonReducedData) {
+    switch (pokemon.egg) {
+      case '2 km':
+        total2KmEggs++;
+        break;
+      case '5 km':
+        total5KmEggs++;
+        break;
+      case '10 km':
+        total10KmEggs++;
+        break;
+      default:
+        totalNoEggs++;
+    }
+  }
+  return {
+    '2km': ((total2KmEggs / totalPokemon) * 100).toFixed(2),
+    '5km': ((total5KmEggs / totalPokemon) * 100).toFixed(2),
+    '10km': ((total10KmEggs / totalPokemon) * 100).toFixed(2),
+    'noEgg': ((totalNoEggs / totalPokemon) * 100).toFixed(2)
+  };
 };
+
+const getPokemonTypes = () => {
+  let listOfPokemonTypes = [];
+  for (let pokemon of pokemonReducedData) {
+    for (let type of pokemon.type)
+      if (!(listOfPokemonTypes.includes(type)))
+        listOfPokemonTypes.push(type);
+  }
+  return listOfPokemonTypes;
+};
+
+const masterSorter = (pokedexToShow, nameSorterValue, avgSpawnsSorterValue) => {
+  if ((nameSorterValue !== 'default') && (avgSpawnsSorterValue === 'default')) {//el usuario solicito ordenar por nombre    
+    if (nameSorterValue === 'ascName') {
+      orderAscName(pokedexToShow);
+    } else { //ordenar nombre por descendente
+      orderDescName(pokedexToShow);
+    }
+  }
+  if ((nameSorterValue === 'default') && (avgSpawnsSorterValue !== 'default')) {//el usuario solicito ordenar por avg spawn
+    if (avgSpawnsSorterValue === 'ascSpawns') {
+      orderAscSpawns(pokedexToShow);
+    } else { //ordenar AvgSpawns por descendente
+      orderDescSpawns(pokedexToShow);
+    }
+  }
+  if ((nameSorterValue === 'default') && (avgSpawnsSorterValue === 'default')) {//el usuario no ha seleccionado ningun tipo de ordenamiento
+    orderIdPokemon(pokedexToShow);
+  }
+};
+
 const orderIdPokemon = (pokedexToShow) => {
   pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.id < pkmB.id) return -1;
@@ -36,20 +85,23 @@ const orderIdPokemon = (pokedexToShow) => {
     return 0;
   });
 };
-const orderAscPokemon = (pokedexToShow) => {
+
+const orderAscName = (pokedexToShow) => {
   pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.name < pkmB.name) return -1;
     if (pkmA.name > pkmB.name) return 1;
     return 0;
   });
 };
-const orderDescPokemon = (pokedexToShow) => {
+
+const orderDescName = (pokedexToShow) => {
   pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.name > pkmB.name) return -1;
     if (pkmA.name < pkmB.name) return 1;
     return 0;
   });
 };
+
 const orderAscSpawns = (pokedexToShow) => {
   pokedexToShow.sort((pkmA, pkmB) => {
     if (pkmA.avgSpawns < pkmB.avgSpawns) return -1;
@@ -65,50 +117,42 @@ const orderDescSpawns = (pokedexToShow) => {
     return 0;
   });
 };
-const getTypePokemon = (opcion, pokedexToShow) => {
-  let pokedexUncatched = [];
-  for (let y = 0; y < pokedexToShow.length; y++) {
-    let pokemon = pokedexToShow[y];
-    for (let i = 0; i < pokemon.type.length; i++) {
-      if (pokemon.type[i].indexOf(opcion) > -1) {
-        pokedexUncatched.push(pokemon);
-      }
-    }
-  }
-  return pokedexUncatched;
-};
-const getListTypePokemon = () =>{
-  const arrayType = [];
-  for (let x = 0; x < pokemonReducedData.length; x++) {
-    for (let y = 0; y < pokemonReducedData[x].type.length; y++) {
-      arrayType.push(pokemonReducedData[x].type[y]);
-    }
-  }
-  let sinRepetidos = [...new Set(arrayType)];
-  return sinRepetidos;
+
+const masterFilter = (pkmsFilterValue, typeFilterValue, weaknessFilterValue, eggFilterValue) => {
+  return pokemonReducedData.filter(pokemon => {
+    return (
+      complyPkmsFilter(pokemon, pkmsFilterValue)
+      && complyTypeFilter(pokemon, typeFilterValue)
+      && complyWeaknessFilter(pokemon, weaknessFilterValue)
+      && complyEggFilter(pokemon, eggFilterValue)
+    ) ? true : false;
+  });
 };
 
-const getWeaknessesPokemon = (opcion, pokedexToShowA) => { //Estoy aqui
-  let pokedexUncatched = [];
-  for (let y = 0; y < pokedexToShowA.length; y++) {
-    let pokemon = pokedexToShowA[y];
-    for (let i = 0; i < pokemon.weaknesses.length; i++) {
-      if (pokemon.weaknesses[i].indexOf(opcion) > -1) {
-        pokedexUncatched.push(pokemon);
-      }
-    }
-  }
-  return pokedexToShow = pokedexUncatched;
+const complyPkmsFilter = (pokemon, value) => {
+  switch (value) {
+    case 'catched':
+      return !!(pokemon.multipliers);
+      break;
+    case 'uncatched':
+      return !(pokemon.multipliers);
+      break;
+    default:
+      return true;
+  };
 };
 
-const getListWeaknessesPokemon = () =>{    
-  const arrayWeaknesses = [];
-  for (let x = 0; x < pokemonReducedData.length; x++) {
-    for (let y = 0; y < pokemonReducedData[x].weaknesses.length; y++) {
-      arrayWeaknesses.push(pokemonReducedData[x].weaknesses[y]);
-    }
-  }
+const complyTypeFilter = (pokemon, value) => {
+  if (value === 'default') return true;
+  else return (pokemon.type.includes(value)) ? true : false;
+};
 
-  let sinRepetidos = [...new Set(arrayWeaknesses)];
-  return sinRepetidos;
+const complyWeaknessFilter = (pokemon, value) => {
+  if (value === 'default') return true;
+  else return (pokemon.weaknesses.includes(value)) ? true : false;
+};
+
+const complyEggFilter = (pokemon, value) => {
+  if (value === 'default') return true;
+  else return (pokemon.egg === value) ? true : false;
 };
