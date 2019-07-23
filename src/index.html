@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ES">
   <head>
     <meta charset="utf-8">
-    <title>Data Lovers</title>
+    <title>Pokemon Ale - MarianWhat</title>
     <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat|Noto+Sans+HK&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <meta name="viewport" content="width=device-width">
   </head>
   <body>
     <header id="header">
@@ -48,13 +48,13 @@
         </select>
         <label>Filtrar por Huevo:</label>        
         <select class="filtro" id="select-egg">
-          <option value="default">Todos</option>          
+          <option value="default">Todos</option>       
         </select>
         <button class="btn" id="btn-clean">Limpiar</button>
     </nav>
     <main class="display-flex">      
       <section class="display-flex container-login" id="cont-login">
-        <img src="img/logo-pokemon.png" class="image-login" alt="logo principal del loginForm">
+        <h2 class="image-login">Pokemon<img src="img/logo-pokemon.png" class="image-login" alt="logo principal del loginForm"></h2>
         <div class="cont-inputs">
           <label class="class-label">Usuario:</label>
           <input type="text" id="input-name" class="class-input" placeholder="Usuario">
@@ -67,7 +67,8 @@
         <p class="class-center ">¿No tienes una cuenta? <a href="" class="call-action-resgistrar">Regístrate</a></p>
         <p class="mensaje-alerta" id="mensaje-alerta"></p>
       </section>
-      <section class="pokedex display-flex" id="pokedex"></section>
+      <section class="pokedex display-flex" id="pokedex">
+      </section>
     </main>
     <footer>
       <p class="display-flex">Hecho con <img src="img/cerebro.png" alt="cerebro"> por Ale Visa | MarianWhat</p>

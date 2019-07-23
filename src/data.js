@@ -56,10 +56,10 @@ const getPokemonTypes = (data) => {
   return listOfPokemonTypes;
 };
 const masterSorter = (pokedexToShow, nameSorterValue, avgSpawnsSorterValue) => {
-  if ((nameSorterValue !== 'default') && (avgSpawnsSorterValue === 'default')) {// el usuario solicito ordenar por nombre    
+  if ((nameSorterValue !== 'default') && (avgSpawnsSorterValue === 'default')) { 
     return (nameSorterValue === 'ascName') ? orderAscName(pokedexToShow) : orderDescName(pokedexToShow);
   }
-  if ((nameSorterValue === 'default') && (avgSpawnsSorterValue !== 'default')) {// el usuario solicito ordenar por avg spawn
+  if ((nameSorterValue === 'default') && (avgSpawnsSorterValue !== 'default')) {
     return (avgSpawnsSorterValue === 'ascSpawns') ? orderAscSpawns(pokedexToShow) : orderDescSpawns(pokedexToShow);
   }
   return ((nameSorterValue === 'default') && (avgSpawnsSorterValue === 'default')) ? orderIdPokemon(pokedexToShow) : false;
@@ -92,10 +92,10 @@ const orderDescSpawns = (pokedexToShow) => {
 const masterFilter = (data, pkmsFilterValue, typeFilterValue, weaknessFilterValue, eggFilterValue) => {
   return data.filter(pokemon => {
     return (
-      complyPkmsFilter(pokemon, pkmsFilterValue)
+      complyPkmsFilter(pokemon, pkmsFilterValue) 
       && complyTypeFilter(pokemon, typeFilterValue)
-      && complyWeaknessFilter(pokemon, weaknessFilterValue)
-      && complyEggFilter(pokemon, eggFilterValue)
+      && complyWeaknessFilter(pokemon, weaknessFilterValue) 
+      && complyEggFilter(pokemon, eggFilterValue) 
     ) ? true : false;
   });
 };

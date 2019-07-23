@@ -340,7 +340,6 @@ const pokemonCatOrderAscId = [
       'Dragon',
       'Fairy'
     ]},
-  
 ];
 const typePokemon = ['Grass', 'Poison', 'Dragon'];
 const eggPer = {
@@ -376,7 +375,7 @@ describe('reducirDataPokemon', () => {
     expect(functions.masterSorter(pokemonCat, 'default', 'default')).toEqual(pokemonCatOrderAscId);
   });
   it('6.2. masterSorter-ascName | Deberia retornar...', () => {
-    expect(functions.masterSorter(pokemonCat, 'ascName', 'descSpawns')).toEqual(pokemonCat);
+    expect(functions.masterSorter(pokemonCat, 'ascName', 'default')).toEqual(pokemonCat);
   });
   it('6.3. masterSorter-descName | Deberia retornar...', () => {
     expect(functions.masterSorter(pokemonCat, 'descName', 'default')).toEqual(pokemonCatOrderDescName);
