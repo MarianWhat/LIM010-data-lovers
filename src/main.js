@@ -34,7 +34,6 @@ btnSubmit.addEventListener('click', () => {
     enteredUsername.value = '';
   }
 });
-
 btnMostrarClave.addEventListener('click', () => {
   if (claveOculta === 0) {
     enteredPassword.setAttribute('type', 'text');
@@ -46,7 +45,6 @@ btnMostrarClave.addEventListener('click', () => {
     btnMostrarClave.classList.remove('mostrar');
   }
 });
-
 btnMenu.addEventListener('click', () => {
   if (menuOpen === 0) {
     navbar.classList.add('navbar-show');
@@ -68,14 +66,12 @@ clean.addEventListener('click', () => {
   pokedexToShow = masterFilter(pokemonReducedData, 'all', 'default', 'default', 'default');
   renderPokedex(pokedexToShow);
 });
-
 exit.addEventListener('click', () => {
   sectionPokedex.classList.remove('flex');
   navbar.classList.remove('flex');
   contLogin.classList.remove('none');
   header.classList.remove('show-elements');
 });
-
 const renderPokedex = (listOfPokemonToShow) => {
   sectionPokedex.innerHTML = '';
   if (listOfPokemonToShow.length === 0) sectionPokedex.innerHTML = '<p class="alertNot">Lo siento, no se encontraron Pokemons. :(</p>';
@@ -106,7 +102,6 @@ const renderPokedex = (listOfPokemonToShow) => {
     <img class="img-pokemon" src="${pokemon.img}">
     <div class="contenido-poke">
       <h2 class="nombre-pokemon">${pokemon.name}</h2>
-<!-- <p class="num-pokemon">#${pokemon.num}</p> -->
       <div class='info-tripack display-flex'>
         <div class="item-tripack ">${iconsTipo}</div>
         ${tipoEgg}
@@ -165,7 +160,6 @@ selectPokemon.addEventListener('change', someFilterValueWasUpdated);
 selectType.addEventListener('change', someFilterValueWasUpdated);
 selectWeaknesses.addEventListener('change', someFilterValueWasUpdated);
 selectEgg.addEventListener('change', someFilterValueWasUpdated);
-
 selectName.addEventListener('change', () => {
   selectAvgSpawns.value = 'default';
   someSorterValueWasUpdated();

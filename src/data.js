@@ -66,27 +66,27 @@ const masterSorter = (pokedexToShow, nameSorterValue, avgSpawnsSorterValue) => {
 };
 const orderIdPokemon = (pokedexToShow) => {
   return pokedexToShow.sort((pkmA, pkmB) => {
-    if (pkmA.id < pkmB.id) return -1;
+    return pkmA.id < pkmB.id ? -1 : 1;
   });
 };
 const orderAscName = (pokedexToShow) => {
-  return pokedexToShow.sort((pkmA, pkmB) => {
-    if (pkmA.name < pkmB.name) return -1;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  return pokedexToShow.sort((pkmA, pkmB) => { 
+    return pkmA.name < pkmB.name ? -1 : 1;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
   });
 };
 const orderDescName = (pokedexToShow) => {
   return pokedexToShow.sort((pkmA, pkmB) => {
-    if (pkmA.name > pkmB.name) return -1;
+    return pkmA.name > pkmB.name ? -1 : 1;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
   });
 };
 const orderAscSpawns = (pokedexToShow) => {
   return pokedexToShow.sort((pkmA, pkmB) => {
-    if (pkmA.avgSpawns < pkmB.avgSpawns) return -1;
+    return pkmA.avgSpawns < pkmB.avgSpawns ? -1 : 1;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
   });
 };
 const orderDescSpawns = (pokedexToShow) => {
   return pokedexToShow.sort((pkmA, pkmB) => {
-    if (pkmA.avgSpawns > pkmB.avgSpawns) return -1;
+    return pkmA.avgSpawns > pkmB.avgSpawns ? -1 : 1;
   });
 };
 const masterFilter = (data, pkmsFilterValue, typeFilterValue, weaknessFilterValue, eggFilterValue) => {
@@ -121,18 +121,19 @@ const complyEggFilter = (pokemon, value) => {
   if (value === 'default') return true;
   else return (pokemon.egg === value) ? true : false;
 };
-window.calculateEggPercentage = calculateEggPercentage;
-window.getPokemonTypes = getPokemonTypes;
-window.masterSorter = masterSorter;
-window.orderIdPokemon = orderIdPokemon;
-window.orderAscName = orderAscName;
-window.orderDescName = orderDescName;
-window.orderAscSpawns = orderAscSpawns;
-window.orderDescSpawns = orderDescSpawns;
-window.masterFilter = masterFilter;
-window.complyPkmsFilter = complyPkmsFilter;
-window.complyTypeFilter = complyTypeFilter;
-window.complyWeaknessFilter = complyWeaknessFilter;
-window.complyEggFilter = complyEggFilter;
-window.reducirDataPokemon = reducirDataPokemon;
-
+window.functions = {
+  calculateEggPercentage: calculateEggPercentage,
+  getPokemonTypes: getPokemonTypes,
+  masterSorter: masterSorter,
+  orderIdPokemon: orderIdPokemon,
+  orderAscName: orderAscName,
+  orderDescName: orderDescName,
+  orderAscSpawns: orderAscSpawns,
+  orderDescSpawns: orderDescSpawns,
+  masterFilter: masterFilter,
+  complyPkmsFilter: complyPkmsFilter,
+  complyTypeFilter: complyTypeFilter,
+  complyWeaknessFilter: complyWeaknessFilter,
+  complyEggFilter: complyEggFilter,
+  reducirDataPokemon: reducirDataPokemon
+};
